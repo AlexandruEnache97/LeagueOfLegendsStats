@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Image, StyleSheet, Text, TextInput, View } from 'react-native';
+import retrieveSummoner from '../utils/search-summoner';
 
 export default function App() {
   const [username, setUsername] = useState('');
@@ -17,40 +18,14 @@ export default function App() {
   });
 
   const onSubmit = async () => {
-    try {
-      setUserData({
-        ...userData,
-        result: false,
-        message: '',
-        loading: true,
-      });
-      const response = await fetch(`https://league-of-legends-mobile-stats.herokuapp.com/api/getUser/${username}`);
-      const data = await response.json();
-
-      if(data.status !== undefined){
-        setUserData({
-          ...userData,
-           message: data.status.message, 
-           result: false,
-           loading: false,
-        });
-      } else {
-        setUserData({
-          ...data, 
-          message: '',
-          result: true,
-          loading: false,
-        });
-      }
-  
-    } catch (error) {
-      setUserData({
-        ...userData,
-        message: 'Backend error',
-        result: false,
-        loading: false,
-      });
-    }
+    setUserData({
+      ...userData,
+      result: false,
+      message: '',
+      loading: true,
+    });
+    const result = await retrieveSummoner(username);
+    setUserData({ ...userData, ...result });
   }
 
   return (
