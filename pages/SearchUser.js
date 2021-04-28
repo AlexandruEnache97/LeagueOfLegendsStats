@@ -12,22 +12,44 @@ export default function App() {
     revisionDate: '',
     summonerLevel: 0,
     result: false,
+    message: '',
+    loading: false,
   });
 
   const onSubmit = async () => {
     try {
+      setUserData({
+        ...userData,
+        result: false,
+        message: '',
+        loading: true,
+      });
       const response = await fetch(`https://league-of-legends-mobile-stats.herokuapp.com/api/getUser/${username}`);
       const data = await response.json();
 
       if(data.status !== undefined){
-        setUserData({...userData, result: false});
+        setUserData({
+          ...userData,
+           message: data.status.message, 
+           result: false,
+           loading: false,
+        });
       } else {
-        setUserData({...data, result: true});
+        setUserData({
+          ...data, 
+          message: '',
+          result: true,
+          loading: false,
+        });
       }
   
     } catch (error) {
-      console.log('false')
-      console.log(error);
+      setUserData({
+        ...userData,
+        message: 'Backend error',
+        result: false,
+        loading: false,
+      });
     }
   }
 
@@ -43,7 +65,7 @@ export default function App() {
     </View>
     
     <View style={styles.container}>
-    {userData.result ? (
+    {userData.result && userData.message === '' ? (
       <>
         <Image
           style={styles.icon}
@@ -54,8 +76,10 @@ export default function App() {
         <Text>{userData.name}</Text>
         <Text>Level {userData.summonerLevel}</Text>
       </>
-      ) : (
-        <Text>Summoner user not found!</Text>
+      ) : userData.message !== '' ? (
+        <Text>{userData.message}</Text>
+      ) : userData.loading && (
+        <Text>Loading ...</Text>
       )}
       </View>
     </>
