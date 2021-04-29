@@ -7,10 +7,9 @@ const searchUserStyles = StyleSheet.create({
   },
 
   container: {
-    marginTop: 20,
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#fff',
   },
 
   icon: {
@@ -19,12 +18,36 @@ const searchUserStyles = StyleSheet.create({
   },
 
   input: {
-    width: 200,
-    height: 25,
+    marginTop: 30,
+    width: '60%',
+    height: 35,
     borderWidth: 1,
-    borderColor: '#000',
-    borderStyle: 'solid',
-    paddingLeft: 5,
+    backgroundColor: '#fff',
+    paddingLeft: 10,
+    fontSize: 15,
+    borderRadius: 10,
+  },
+
+  logo: {
+    width: 100,
+    height: 100,
+  },
+
+  text: {
+    color: '#fff',
+    fontSize: 14,
+    marginTop: 5,
+  },
+
+  userContainer: {
+    marginTop: 100,
+    alignItems: 'center',
+  },
+
+  page: {
+    flex: 1,
+    width: '100%',
+    backgroundColor: '#000',
   },
 });
 

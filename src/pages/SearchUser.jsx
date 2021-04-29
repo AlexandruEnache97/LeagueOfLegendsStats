@@ -5,6 +5,7 @@ import {
 import searchUserStyles from './searchUserStyles';
 import { LEAGUE_API } from '../config';
 import retrieveSummoner from '../utils/search-summoner';
+import Header from './Header';
 
 export default function App() {
   const [username, setUsername] = useState('');
@@ -33,37 +34,40 @@ export default function App() {
   };
 
   return (
-    <>
+    <View style={searchUserStyles.page}>
+      <Header />
       <View style={searchUserStyles.container}>
-        <Text style={searchUserStyles.title}>Search username:</Text>
+        <Image
+          style={searchUserStyles.logo}
+          source={{ uri: 'https://img.icons8.com/carbon-copy/200/ffffff/league-of-legends.png' }}
+        />
+        {/* <Text style={searchUserStyles.title}>Search username:</Text> */}
         <TextInput
           style={searchUserStyles.input}
+          placeholder="Search for summoner"
           onChangeText={setUsername}
           onSubmitEditing={onSubmit}
         />
-      </View>
-
-      <View style={searchUserStyles.container}>
-        {userData.loading && <Text>Loading ...</Text>}
+        {userData.loading && <Text style={searchUserStyles.text}>Loading ...</Text>}
         {userData.result && userData.message === '' ? (
-          <>
+          <View style={searchUserStyles.userContainer}>
             <Image
               style={searchUserStyles.icon}
               source={{
                 uri: `${LEAGUE_API.getIcon}/${userData.profileIconId}.png`,
               }}
             />
-            <Text>{userData.name}</Text>
-            <Text>
+            <Text style={searchUserStyles.text}>{userData.name}</Text>
+            <Text style={searchUserStyles.text}>
               Level
               {' '}
               {userData.summonerLevel}
             </Text>
-          </>
+          </View>
         ) : userData.message !== '' && (
-          <Text>{userData.message}</Text>
+          <Text style={searchUserStyles.text}>{userData.message}</Text>
         )}
       </View>
-    </>
+    </View>
   );
 }
